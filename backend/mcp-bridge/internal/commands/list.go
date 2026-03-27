@@ -24,7 +24,7 @@ func runList(cmd *cobra.Command, args []string) error {
 	if len(cfg.MCPServers) == 0 {
 		fmt.Println("📋 No MCP servers configured")
 		fmt.Println()
-		fmt.Println("Add a server with: clara_companion add <name> --path <server-path>")
+		fmt.Println("Add a server with: clara-companion add <name> --path <server-path>")
 		return nil
 	}
 

@@ -17,10 +17,10 @@ Connect your local tools and filesystem to ClaraVerse via the Clara Companion CL
 claraverse companion
 
 # Login (choose default localhost:3000 or enter your server URL)
-clara_companion login
+clara-companion login
 
 # Start the bridge
-clara_companion
+clara-companion
 ```
 
 Or install manually from [GitHub Releases](https://github.com/claraverse-space/ClaraVerse/releases).
@@ -54,7 +54,7 @@ These servers are available out of the box (requires Node.js for npx):
 | `devices revoke <id>` | Revoke a device |
 | `devices rename <id> <name>` | Rename a device |
 
-Running `clara_companion` without arguments starts the bridge.
+Running `clara-companion` without arguments starts the bridge.
 
 ## Background Service
 
@@ -63,14 +63,14 @@ Install as a background service so the bridge auto-starts on login:
 **macOS** (launchd):
 
 ```bash
-clara_companion service install
+clara-companion service install
 # Location: ~/Library/LaunchAgents/com.claraverse.mcp-client.plist
 ```
 
 **Linux** (systemd):
 
 ```bash
-clara_companion service install
+clara-companion service install
 # Location: ~/.config/systemd/user/claraverse-mcp.service
 ```
 
@@ -108,18 +108,18 @@ mcp_servers:
 **Auth issues:**
 
 ```bash
-clara_companion status   # Check token
-clara_companion login    # Re-authenticate
+clara-companion status   # Check token
+clara-companion login    # Re-authenticate
 ```
 
 **Connection issues:**
 - Check your ClaraVerse backend is running
 - Check firewall allows WebSocket connections
-- Run `clara_companion status` for diagnostics
+- Run `clara-companion status` for diagnostics
 
 **Service issues:**
 
 ```bash
-clara_companion service status
+clara-companion service status
 tail -f ~/.claraverse/logs/mcp-client.log
 ```

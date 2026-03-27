@@ -59,7 +59,7 @@ type Bridge struct {
 	conn            *websocket.Conn
 	writeChan       chan Message
 	stopChan        chan struct{}
-	connDone        chan struct{}   // closed when current connection is being torn down
+	connDone        chan struct{}  // closed when current connection is being torn down
 	writeWg         sync.WaitGroup // tracks active writeLoop goroutine
 	reconnectDelay  time.Duration
 	maxReconnect    time.Duration
@@ -69,11 +69,11 @@ type Bridge struct {
 	ackChan         chan error // Signals RegisterTools that the backend has ACK'd (nil) or errored
 	onToolCall      func(ToolCall)
 	onTokenRefresh  func(accessToken, refreshToken string, expiry int64) // Callback to save refreshed tokens
-	onReconnect     func() // Callback to re-register tools after reconnection
-	onServerCommand func(ServerCommand) error // Callback for server management commands from web UI
-	onDisconnect    func()                              // Callback when connection is lost (before reconnect attempt)
-	onPersonaSync   func(payload map[string]interface{}) // Callback for persona sync from cloud
-	onRequestSync   func()                              // Callback when backend requests a full state re-sync
+	onReconnect     func()                                               // Callback to re-register tools after reconnection
+	onServerCommand func(ServerCommand) error                            // Callback for server management commands from web UI
+	onDisconnect    func()                                               // Callback when connection is lost (before reconnect attempt)
+	onPersonaSync   func(payload map[string]interface{})                 // Callback for persona sync from cloud
+	onRequestSync   func()                                               // Callback when backend requests a full state re-sync
 	verbose         bool
 }
 
@@ -213,7 +213,7 @@ func (b *Bridge) Connect() error {
 	}
 
 	// Drain stale messages from writeChan before starting new loops
-	drainLoop:
+drainLoop:
 	for {
 		select {
 		case <-b.writeChan:
@@ -225,7 +225,7 @@ func (b *Bridge) Connect() error {
 	b.mutex.Lock()
 	b.conn = conn
 	b.connected = true
-	b.authFailed = false // Reset auth failed on successful connection
+	b.authFailed = false               // Reset auth failed on successful connection
 	b.reconnectDelay = 1 * time.Second // Reset reconnect delay on successful connection
 	b.connDone = make(chan struct{})
 	b.mutex.Unlock()
@@ -255,7 +255,7 @@ func (b *Bridge) ConnectWithRetry() {
 		authFailed := b.authFailed
 		b.mutex.RUnlock()
 		if authFailed {
-			log.Println("❌ Authentication failed. Please run: clara_companion login")
+			log.Println("❌ Authentication failed. Please run: clara-companion login")
 			return
 		}
 
@@ -280,7 +280,7 @@ func (b *Bridge) ConnectWithRetry() {
 			b.mutex.Lock()
 			b.authFailed = true
 			b.mutex.Unlock()
-			log.Println("❌ Token expired and refresh failed. Please run: clara_companion login")
+			log.Println("❌ Token expired and refresh failed. Please run: clara-companion login")
 			return
 		}
 
@@ -579,7 +579,7 @@ func (b *Bridge) handleDisconnect() {
 
 	// Don't attempt reconnect if auth has failed
 	if authFailed {
-		log.Println("❌ Authentication failed. Please run: clara_companion login")
+		log.Println("❌ Authentication failed. Please run: clara-companion login")
 		return
 	}
 

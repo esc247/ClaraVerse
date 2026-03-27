@@ -136,52 +136,67 @@ func promptServerURL() (string, error) {
 	fmt.Println(stepStyle.Render("  Server Connection"))
 	fmt.Println()
 
-	// Determine default from build-time or fallback
-	defaultWS := config.DefaultBackendURL
-	defaultHTTP := config.DefaultAPIBaseURL()
-	if defaultHTTP == "" {
-		defaultHTTP = "http://localhost:3000"
-		defaultWS = "ws://localhost:3000/mcp/connect"
-	}
+	// Get the cloud URL from config
+	cloudHTTP := config.DefaultAPIBaseURL()
+	cloudWS := config.DefaultBackendURL
 
-	fmt.Printf("  [1] Default (%s)\n", defaultHTTP)
-	fmt.Println("  [2] Custom URL")
+	fmt.Println("  Select authentication target:")
 	fmt.Println()
-	fmt.Print("  Choose (1/2) [1]: ")
+	fmt.Println("  [1] Local Installation (localhost:3000)")
+	fmt.Printf("  [2] ClaraVerse Cloud (%s)\n", cloudHTTP)
+	fmt.Println("  [3] Custom URL")
+	fmt.Println()
+	fmt.Print("  Choose (1/2/3) [1]: ")
 
 	choice, _ := reader.ReadString('\n')
 	choice = strings.TrimSpace(choice)
 
+	// Default to local installation
 	if choice == "" || choice == "1" {
-		fmt.Printf("  → Using %s\n\n", defaultHTTP)
-		return defaultWS, nil
+		localWS := "ws://localhost:3000/mcp/connect"
+		fmt.Printf("  → Using local installation (localhost:3000)\n\n")
+		return localWS, nil
 	}
 
-	fmt.Print("  Enter your ClaraVerse URL (e.g. https://my-server.com): ")
-	customURL, _ := reader.ReadString('\n')
-	customURL = strings.TrimSpace(customURL)
-
-	if customURL == "" {
-		return defaultWS, nil
+	if choice == "2" {
+		fmt.Printf("  → Using ClaraVerse Cloud (%s)\n\n", cloudHTTP)
+		return cloudWS, nil
 	}
 
-	// Normalize: strip trailing slash
-	customURL = strings.TrimRight(customURL, "/")
+	if choice == "3" {
+		fmt.Print("  Enter your ClaraVerse URL (e.g. https://my-server.com): ")
+		customURL, _ := reader.ReadString('\n')
+		customURL = strings.TrimSpace(customURL)
 
-	// Convert HTTP URL to WS URL for the backend connection
-	wsURL := customURL
-	if strings.HasPrefix(wsURL, "https://") {
-		wsURL = "wss://" + strings.TrimPrefix(wsURL, "https://")
-	} else if strings.HasPrefix(wsURL, "http://") {
-		wsURL = "ws://" + strings.TrimPrefix(wsURL, "http://")
-	} else {
-		// Assume plain hostname, use ws://
-		wsURL = "ws://" + wsURL
+		if customURL == "" {
+			localWS := "ws://localhost:3000/mcp/connect"
+			fmt.Printf("  → Using local installation (localhost:3000)\n\n")
+			return localWS, nil
+		}
+
+		// Normalize: strip trailing slash
+		customURL = strings.TrimRight(customURL, "/")
+
+		// Convert HTTP URL to WS URL for the backend connection
+		wsURL := customURL
+		if strings.HasPrefix(wsURL, "https://") {
+			wsURL = "wss://" + strings.TrimPrefix(wsURL, "https://")
+		} else if strings.HasPrefix(wsURL, "http://") {
+			wsURL = "ws://" + strings.TrimPrefix(wsURL, "http://")
+		} else {
+			// Assume plain hostname, use ws://
+			wsURL = "ws://" + wsURL
+		}
+		wsURL += "/mcp/connect"
+
+		fmt.Printf("  → Connecting to %s\n\n", customURL)
+		return wsURL, nil
 	}
-	wsURL += "/mcp/connect"
 
-	fmt.Printf("  → Connecting to %s\n\n", customURL)
-	return wsURL, nil
+	// Invalid choice, default to local
+	localWS := "ws://localhost:3000/mcp/connect"
+	fmt.Printf("  → Using local installation (localhost:3000)\n\n")
+	return localWS, nil
 }
 
 func printHeader() {
@@ -452,7 +467,6 @@ func openBrowser(url string) error {
 	return nil
 }
 
-
 func waitForEnter() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print(dimStyle.Render("Press Enter to continue..."))
@@ -501,7 +515,7 @@ func RefreshDeviceToken(cfg *config.Config) error {
 		var errResp map[string]string
 		if json.Unmarshal(body, &errResp) == nil {
 			if errResp["error"] == "invalid_grant" {
-				return fmt.Errorf("device has been revoked. Please run: clara_companion login")
+				return fmt.Errorf("device has been revoked. Please run: clara-companion login")
 			}
 		}
 		return fmt.Errorf("refresh failed: %s (status %d)", string(body), resp.StatusCode)
@@ -528,4 +542,3 @@ func RefreshDeviceToken(cfg *config.Config) error {
 
 	return nil
 }
-

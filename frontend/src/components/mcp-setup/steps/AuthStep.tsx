@@ -162,7 +162,7 @@ export const AuthStep = ({ initialCode, userEmail, onAuthorized }: AuthStepProps
 
       <Alert
         variant="info"
-        message="Run 'clara_companion login' in your terminal to get a device code."
+        message="Run 'clara-companion login' in your terminal to get a device code."
         className="auth-warning"
       />
     </div>

@@ -91,10 +91,10 @@ Getting started takes three commands:
 curl -fsSL https://raw.githubusercontent.com/ClaraVerse/ClaraVerse/main/backend/mcp-bridge/scripts/install.sh | sh
 
 # 2. Authenticate with your ClaraVerse account
-clara_companion login
+clara-companion login
 
 # 3. Launch the interactive dashboard
-clara_companion
+clara-companion
 ```
 
 On Windows, use PowerShell:
@@ -134,16 +134,16 @@ You can add any MCP-compatible server with a single command:
 
 ```bash
 # Add a browser automation server
-clara_companion add browser --command npx --args @browsermcp/mcp@latest
+clara-companion add browser --command npx --args @browsermcp/mcp@latest
 
 # Add a custom server by path
-clara_companion add mytools --command /usr/local/bin/my-mcp-server
+clara-companion add mytools --command /usr/local/bin/my-mcp-server
 
 # List all configured servers
-clara_companion list
+clara-companion list
 
 # Remove a server
-clara_companion remove browser
+clara-companion remove browser
 ```
 
 The configuration lives in a single YAML file:
@@ -170,7 +170,7 @@ mcp_servers:
 For always-on access, Clara Companion can install itself as a background service:
 
 ```bash
-clara_companion service install
+clara-companion service install
 ```
 
 On **macOS**, this creates a `launchd` plist at `~/Library/LaunchAgents/com.claraverse.clara-companion.plist` that starts the bridge automatically on login and restarts it if it crashes.
@@ -179,14 +179,14 @@ On **Linux**, it creates a `systemd` user service at `~/.config/systemd/user/cla
 
 ```bash
 # Check if the service is running
-clara_companion service status
+clara-companion service status
 
 # View logs
-tail -f ~/.claraverse/logs/clara_companion.log
+tail -f ~/.claraverse/logs/clara-companion.log
 
 # Stop or restart
-clara_companion service stop
-clara_companion service start
+clara-companion service stop
+clara-companion service start
 ```
 
 The bridge handles network interruptions gracefully. If the WebSocket drops, it reconnects with exponential backoff (starting at 1 second, capping at 60 seconds) and re-registers all tools automatically. Token refresh happens preemptively -- five minutes before expiry -- so sessions do not interrupt mid-conversation.

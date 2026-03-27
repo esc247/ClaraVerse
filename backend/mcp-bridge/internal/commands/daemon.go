@@ -45,7 +45,7 @@ func runDaemon(cmd *cobra.Command, args []string) error {
 	}
 
 	if cfg.AuthToken == "" {
-		return fmt.Errorf("not authenticated. Please run 'clara_companion login' first")
+		return fmt.Errorf("not authenticated. Please run 'clara-companion login' first")
 	}
 
 	if daemon.IsRunning() {

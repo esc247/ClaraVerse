@@ -17,11 +17,11 @@ var AddCmd = &cobra.Command{
 	Use:   "add [name]",
 	Short: "Add a new MCP server",
 	Long: `Add a new MCP server to your configuration. The server will be
-enabled by default and started when you run 'clara_companion start'.
+enabled by default and started when you run 'clara-companion start'.
 
 Examples:
-  clara_companion add filesystem --path /usr/local/bin/mcp-server-filesystem
-  clara_companion add database --path ./mcp-server-sqlite --type stdio`,
+	 clara-companion add filesystem --path /usr/local/bin/mcp-server-filesystem
+	 clara-companion add database --path ./mcp-server-sqlite --type stdio`,
 	Args: cobra.ExactArgs(1),
 	RunE: runAdd,
 }
@@ -68,7 +68,7 @@ func runAdd(cmd *cobra.Command, args []string) error {
 		fmt.Printf("💬 Description: %s\n", serverDesc)
 	}
 	fmt.Println()
-	fmt.Println("Server will be started automatically when you run 'clara_companion start'")
+	fmt.Println("Server will be started automatically when you run 'clara-companion start'")
 
 	return nil
 }

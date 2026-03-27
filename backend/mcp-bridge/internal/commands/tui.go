@@ -81,7 +81,7 @@ func runTUI(cmd *cobra.Command, args []string) error {
 
 	// Check if authenticated
 	if cfg.AuthToken == "" {
-		fmt.Println("Not authenticated. Please run 'clara_companion login' first.")
+		fmt.Println("Not authenticated. Please run 'clara-companion login' first.")
 		return nil
 	}
 
@@ -111,9 +111,9 @@ func runTUI(cmd *cobra.Command, args []string) error {
 
 		if refreshErr != nil {
 			if errors.Is(refreshErr, auth.ErrTokenExpired) {
-				return fmt.Errorf("token expired and no refresh token available. Please run 'clara_companion login'")
+				return fmt.Errorf("token expired and no refresh token available. Please run 'clara-companion login'")
 			}
-			return fmt.Errorf("token refresh failed: %w. Please run 'clara_companion login'", refreshErr)
+			return fmt.Errorf("token refresh failed: %w. Please run 'clara-companion login'", refreshErr)
 		}
 	}
 

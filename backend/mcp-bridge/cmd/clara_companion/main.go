@@ -15,14 +15,14 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "clara_companion",
+	Use:   "clara-companion",
 	Short: "Clara Companion - Connect local tools to cloud",
 	Long: `Clara Companion connects local MCP servers to your ClaraVerse cloud chat.
 
 Quick Start:
-  clara_companion                 Launch interactive dashboard (default)
-  clara_companion login           Authenticate (first time)
-  clara_companion start           Start headless (for scripts/automation)
+  clara-companion                 Launch interactive dashboard (default)
+  clara-companion login           Authenticate (first time)
+  clara-companion start           Start headless (for scripts/automation)
 
 Commands:
   login                      Authenticate with ClaraVerse
@@ -36,13 +36,13 @@ Commands:
   devices list/revoke        Manage connected devices
 
 Examples:
-  clara_companion                                 # Launch dashboard
-  clara_companion login                           # First-time setup
-  clara_companion add browser --command npx --args @browsermcp/mcp@latest
-  clara_companion service install                 # Auto-start on login
+  clara-companion                                 # Launch dashboard
+  clara-companion login                           # First-time setup
+  clara-companion add browser --command npx --args @browsermcp/mcp@latest
+  clara-companion service install                 # Auto-start on login
 
 Config: ~/.claraverse/mcp-config.yaml
-Logs:   ~/.claraverse/logs/clara_companion.log`,
+Logs:   ~/.claraverse/logs/clara-companion.log`,
 	Version: Version,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// When no subcommand is specified, try to launch TUI

@@ -35,7 +35,7 @@ func runStart(cmd *cobra.Command, args []string) error {
 
 	// Check if authenticated
 	if cfg.AuthToken == "" {
-		return fmt.Errorf("not authenticated. Please run 'clara_companion login' first")
+		return fmt.Errorf("not authenticated. Please run 'clara-companion login' first")
 	}
 
 	verbose, _ := cmd.Flags().GetBool("verbose")
@@ -50,7 +50,7 @@ func runStart(cmd *cobra.Command, args []string) error {
 
 		var refreshErr error
 
-		// Use device token refresh if we have device credentials (from clara_companion login)
+		// Use device token refresh if we have device credentials (from clara-companion login)
 		if cfg.Device != nil && cfg.Device.DeviceID != "" && cfg.Device.RefreshToken != "" {
 			refreshErr = RefreshDeviceToken(cfg)
 		} else if cfg.RefreshToken != "" {
@@ -74,9 +74,9 @@ func runStart(cmd *cobra.Command, args []string) error {
 
 		if refreshErr != nil {
 			if errors.Is(refreshErr, auth.ErrTokenExpired) {
-				return fmt.Errorf("token expired and no refresh token available. Please run 'clara_companion login'")
+				return fmt.Errorf("token expired and no refresh token available. Please run 'clara-companion login'")
 			}
-			return fmt.Errorf("token refresh failed: %w. Please run 'clara_companion login'", refreshErr)
+			return fmt.Errorf("token refresh failed: %w. Please run 'clara-companion login'", refreshErr)
 		}
 
 		log.Println("✅ Token refreshed successfully")
@@ -88,7 +88,7 @@ func runStart(cmd *cobra.Command, args []string) error {
 	// Start all enabled MCP servers
 	enabledServers := cfg.GetEnabledServers()
 	if len(enabledServers) == 0 {
-		log.Println("⚠️  No MCP servers configured. Add servers with 'clara_companion add'")
+		log.Println("⚠️  No MCP servers configured. Add servers with 'clara-companion add'")
 	}
 
 	for _, server := range enabledServers {

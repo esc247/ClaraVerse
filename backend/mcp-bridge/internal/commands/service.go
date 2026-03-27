@@ -178,14 +178,14 @@ func runServiceInstall(cmd *cobra.Command, args []string) error {
 		fmt.Println("ℹ️  Background service is not yet supported on Windows.")
 		fmt.Println()
 		fmt.Println("Alternatives:")
-		fmt.Println("  1. Add clara_companion.exe to your Startup folder:")
+		fmt.Println("  1. Add clara-companion.exe to your Startup folder:")
 		fmt.Printf("     %s\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\n", os.Getenv("USERPROFILE"))
 		fmt.Println()
 		fmt.Println("  2. Create a scheduled task with Task Scheduler:")
 		fmt.Printf("     schtasks /create /tn \"ClaraVerse MCP\" /tr \"%s start\" /sc onlogon\n", cfg.ExecutablePath)
 		fmt.Println()
 		fmt.Println("  3. Run manually when needed:")
-		fmt.Println("     clara_companion start")
+		fmt.Println("     clara-companion start")
 		return nil
 	default:
 		return fmt.Errorf("service installation not supported on %s", runtime.GOOS)
@@ -230,10 +230,10 @@ func installLaunchdService(cfg *serviceConfig) error {
 	fmt.Printf("   Location: %s\n", plistPath)
 	fmt.Println()
 	fmt.Println("   Commands:")
-	fmt.Println("   • clara_companion service status    - Check status")
-	fmt.Println("   • clara_companion service stop      - Stop service")
-	fmt.Println("   • clara_companion service start     - Start service")
-	fmt.Println("   • clara_companion service uninstall - Remove service")
+	fmt.Println("   • clara-companion service status    - Check status")
+	fmt.Println("   • clara-companion service stop      - Stop service")
+	fmt.Println("   • clara-companion service start     - Start service")
+	fmt.Println("   • clara-companion service uninstall - Remove service")
 	fmt.Println()
 	fmt.Printf("   Logs: %s/clara_companion.log\n", cfg.LogPath)
 
@@ -284,10 +284,10 @@ func installSystemdService(cfg *serviceConfig) error {
 	fmt.Printf("   Location: %s\n", servicePath)
 	fmt.Println()
 	fmt.Println("   Commands:")
-	fmt.Println("   • clara_companion service status    - Check status")
-	fmt.Println("   • clara_companion service stop      - Stop service")
-	fmt.Println("   • clara_companion service start     - Start service")
-	fmt.Println("   • clara_companion service uninstall - Remove service")
+	fmt.Println("   • clara-companion service status    - Check status")
+	fmt.Println("   • clara-companion service stop      - Stop service")
+	fmt.Println("   • clara-companion service start     - Start service")
+	fmt.Println("   • clara-companion service uninstall - Remove service")
 	fmt.Println()
 	fmt.Printf("   Logs: %s/clara_companion.log\n", cfg.LogPath)
 
@@ -377,8 +377,8 @@ func runServiceStatus(cmd *cobra.Command, args []string) error {
 	case "windows":
 		fmt.Println("📋 Service Status: Not applicable on Windows")
 		fmt.Println()
-		fmt.Println("To check if clara_companion is running:")
-		fmt.Println("  tasklist | findstr clara_companion")
+		fmt.Println("To check if clara-companion is running:")
+		fmt.Println("  tasklist | findstr clara-companion")
 		return nil
 	default:
 		return fmt.Errorf("service status not supported on %s", runtime.GOOS)
@@ -395,7 +395,7 @@ func statusLaunchdService() error {
 	if _, err := os.Stat(plistPath); os.IsNotExist(err) {
 		fmt.Println("📋 Service Status: Not installed")
 		fmt.Println()
-		fmt.Println("   Install with: clara_companion service install")
+		fmt.Println("   Install with: clara-companion service install")
 		return nil
 	}
 
@@ -407,7 +407,7 @@ func statusLaunchdService() error {
 		fmt.Println("📋 Service Status: Installed but not running")
 		fmt.Printf("   Location: %s\n", plistPath)
 		fmt.Println()
-		fmt.Println("   Start with: clara_companion service start")
+		fmt.Println("   Start with: clara-companion service start")
 	} else {
 		fmt.Println("📋 Service Status: ✅ Running")
 		fmt.Printf("   Location: %s\n", plistPath)
@@ -429,7 +429,7 @@ func statusSystemdService() error {
 	if _, err := os.Stat(servicePath); os.IsNotExist(err) {
 		fmt.Println("📋 Service Status: Not installed")
 		fmt.Println()
-		fmt.Println("   Install with: clara_companion service install")
+		fmt.Println("   Install with: clara-companion service install")
 		return nil
 	}
 
@@ -469,7 +469,7 @@ func runServiceStart(cmd *cobra.Command, args []string) error {
 
 	case "windows":
 		fmt.Println("ℹ️  Background service is not available on Windows.")
-		fmt.Println("Use 'clara_companion start' to run manually.")
+		fmt.Println("Use 'clara-companion start' to run manually.")
 		return nil
 
 	default:
@@ -501,8 +501,8 @@ func runServiceStop(cmd *cobra.Command, args []string) error {
 
 	case "windows":
 		fmt.Println("ℹ️  Background service is not available on Windows.")
-		fmt.Println("To stop a running clara_companion:")
-		fmt.Println("  taskkill /IM clara_companion.exe /F")
+		fmt.Println("To stop a running clara-companion:")
+		fmt.Println("  taskkill /IM clara-companion.exe /F")
 		return nil
 
 	default:

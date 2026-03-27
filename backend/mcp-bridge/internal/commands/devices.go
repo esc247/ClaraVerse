@@ -80,7 +80,7 @@ func runDevicesList(cmd *cobra.Command, args []string) error {
 	}
 
 	if cfg.AuthToken == "" {
-		return fmt.Errorf("not logged in. Run: clara_companion login")
+		return fmt.Errorf("not logged in. Run: clara-companion login")
 	}
 
 	apiURL := getAPIURL(cfg)
@@ -107,12 +107,12 @@ func runDevicesList(cmd *cobra.Command, args []string) error {
 		// Try refreshing token
 		if cfg.Device != nil && cfg.Device.RefreshToken != "" {
 			if err := RefreshDeviceToken(cfg); err != nil {
-				return fmt.Errorf("session expired. Please run: clara_companion login")
+				return fmt.Errorf("session expired. Please run: clara-companion login")
 			}
 			// Retry with new token
 			return runDevicesList(cmd, args)
 		}
-		return fmt.Errorf("session expired. Please run: clara_companion login")
+		return fmt.Errorf("session expired. Please run: clara-companion login")
 	}
 
 	if resp.StatusCode != http.StatusOK {
@@ -176,7 +176,7 @@ func runDevicesList(cmd *cobra.Command, args []string) error {
 	}
 
 	fmt.Println("─────────────────────────────────────────────────────────────")
-	fmt.Println("Commands: clara_companion devices revoke <id> | clara_companion devices rename <id> <name>")
+	fmt.Println("Commands: clara-companion devices revoke <id> | clara-companion devices rename <id> <name>")
 
 	return nil
 }
@@ -190,7 +190,7 @@ func runDevicesRevoke(cmd *cobra.Command, args []string) error {
 	}
 
 	if cfg.AuthToken == "" {
-		return fmt.Errorf("not logged in. Run: clara_companion login")
+		return fmt.Errorf("not logged in. Run: clara-companion login")
 	}
 
 	// Check if trying to revoke current device
@@ -226,7 +226,7 @@ func runDevicesRevoke(cmd *cobra.Command, args []string) error {
 	}
 
 	if resp.StatusCode == http.StatusUnauthorized {
-		return fmt.Errorf("session expired. Please run: clara_companion login")
+		return fmt.Errorf("session expired. Please run: clara-companion login")
 	}
 
 	if resp.StatusCode == http.StatusNotFound {
@@ -267,7 +267,7 @@ func runDevicesRename(cmd *cobra.Command, args []string) error {
 	}
 
 	if cfg.AuthToken == "" {
-		return fmt.Errorf("not logged in. Run: clara_companion login")
+		return fmt.Errorf("not logged in. Run: clara-companion login")
 	}
 
 	apiURL := getAPIURL(cfg)
@@ -298,7 +298,7 @@ func runDevicesRename(cmd *cobra.Command, args []string) error {
 	}
 
 	if resp.StatusCode == http.StatusUnauthorized {
-		return fmt.Errorf("session expired. Please run: clara_companion login")
+		return fmt.Errorf("session expired. Please run: clara-companion login")
 	}
 
 	if resp.StatusCode == http.StatusNotFound {

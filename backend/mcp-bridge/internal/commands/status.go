@@ -32,7 +32,7 @@ func runStatus(cmd *cobra.Command, args []string) error {
 		}
 	} else {
 		fmt.Println("🔐 Authentication: ❌ Not logged in")
-		fmt.Println("   Run 'clara_companion login' to authenticate")
+		fmt.Println("   Run 'clara-companion login' to authenticate")
 	}
 	fmt.Println()
 
@@ -60,15 +60,15 @@ func runStatus(cmd *cobra.Command, args []string) error {
 	if cfg.AuthToken == "" {
 		fmt.Println()
 		fmt.Println("Next steps:")
-		fmt.Println("1. Login: clara_companion login")
+		fmt.Println("1. Login: clara-companion login")
 	} else if len(enabledServers) == 0 {
 		fmt.Println()
 		fmt.Println("Next steps:")
-		fmt.Println("1. Add servers: clara_companion add <name> --path <server-path>")
+		fmt.Println("1. Add servers: clara-companion add <name> --path <server-path>")
 	} else {
 		fmt.Println()
 		fmt.Println("✅ Ready to start!")
-		fmt.Println("   Run: clara_companion start")
+		fmt.Println("   Run: clara-companion start")
 	}
 
 	return nil
